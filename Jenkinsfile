@@ -1,17 +1,24 @@
 pipeline {
     agent any
-
     stages {
-
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn clean compile'
             }
         }
-
-        stage('Analyse SonarQube') {
+        stage('Test') {
             steps {
-                sh 'mvn verify sonar:sonar'
+                sh 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package'
             }
         }
     }
